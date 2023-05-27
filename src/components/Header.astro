@@ -1,0 +1,153 @@
+---
+---
+
+<header
+  class="text-[#FFFFFF] w-full overflow-hidden relative mb-[25px]"
+  style="box-shadow: 0 0 30px 0 rgba(0,0,0,0.15);"
+  x-data
+>
+  <div
+    class="absolute w-full h-[250px] mxd:h-full"
+    style="background: linear-gradient(270deg,#4278df 0%,#d46590 100%); background-size: 200% auto; animation: shine 4s linear infinite;"
+  >
+  </div>
+  <div
+    class="relative z-[1] mx-auto pt-5 text-left min-h-[175px] w-[580px] mb-[5px] mxd:mb-[30px] mxd:w-[unset] mxd:min-h-[unset]"
+  >
+    <div
+      class="relative mt-[10px] text-left text-[18px] leading-[19px] max-w-[360px] text-[#ffffff] left-[220px] mxd:left-[unset] mxd:px-[30px] mxd:text-center mxd:max-w-[420px] mxd:mx-auto"
+    >
+      Donate today for a chance to win this BONUS prize on top of the GRAND
+      PRIZE (see below).
+    </div>
+    <div
+      class="relative mt-[10px] text-left capitalize text-[#ffffff] text-[28px] font-extrabold leading-[31px] left-[220px] max-w-[440px] mxd:left-[unset] mxd:text-[24px] mxd:text-center mxd:mx-auto font-[Montserrat]"
+    >
+      Meet Shania Twain at the Show of Your Choice
+    </div>
+    <div class="text-center mxd:mt-[35px]">
+      <!-- svelte-ignore a11y-img-redundant-alt -->
+      <img
+        src="/images/ticket-img.png"
+        alt="header image"
+        class="absolute left-0 top-2/4 w-[160px] -translate-y-[50%] mxd:-mt-[15px] mxd:transform-none mxd:w-[110px] mxd:relative mxd:left-[unset] mxd:top-[unset] mxs:h-auto mxs:max-w-full inline-block"
+      />
+      <div
+        class="text-[#ffffff] text-[15px] font-extrabold leading-[4px] uppercase block text-left relative left-[220px] pl-0 mxd:inline-block mxd:ml-[15px] mxd:w-[144px] mxd:text-[12px] mxd:tracking-[2.4px] mxd:pl-0 mxd:left-[unset] tracking-[2px]"
+      >
+        <!-- <div class="w-full flex gap-4 items-center"> -->
+        <div
+          class="flex mxd:flex-col md:items-center md:gap-2 font-[Montserrat] justify-start"
+          x-show="!$store.countDown.timeElapsed"
+        >
+          <div class="flex gap-1 items-center">
+            <!-- DAY  -->
+            <div class="flex items-center">
+              <span
+                class="inline-block font-normal leading-[29px] text-right w-[19px]"
+                x-text="$store.countDown.days"></span>
+              <span
+                class="inline-block font-normal leading-[29px] opacity-[.5] text-left"
+                >d</span
+              >
+            </div>
+            <!-- Hour -->
+            <div class="flex items-center">
+              <span
+                class="inline-block font-normal leading-[29px] text-right w-[19px]"
+                x-text="$store.countDown.hours"></span>
+              <span
+                class="inline-block font-normal leading-[29px] opacity-[.5] text-left"
+                >h</span
+              >
+            </div>
+            <!-- Minutes -->
+            <div class="flex items-center">
+              <span
+                class="inline-block font-normal leading-[29px] text-right w-[19px]"
+                x-text="$store.countDown.minutes"></span>
+              <span
+                class="inline-block font-normal leading-[29px] opacity-[.5] text-left"
+                >M</span
+              >
+            </div>
+            <!-- Seconds -->
+            <div class="flex items-center">
+              <span
+                class="inline-block font-normal leading-[29px] text-right w-[19px]"
+                x-text="$store.countDown.seconds"></span>
+              <span
+                class="inline-block font-normal leading-[29px] opacity-[.5] text-left"
+                >s</span
+              >
+            </div>
+          </div>
+          left
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  import Alpine from "alpinejs";
+  import { Timer } from "easytimer.js";
+  let timer = new Timer();
+
+  function getSecondsRemaining() {
+    // Set the target date (May 30th, 2023)
+    var targetDate = new Date("2023-05-30T23:59:00Z").getTime();
+
+    // Get the current date and time
+    var currentDate = new Date().getTime();
+
+    // Calculate the difference in milliseconds between the target date and the current date
+    var timeDifference = targetDate - currentDate;
+
+    // Convert the difference to seconds
+    var secondsRemaining = Math.floor(timeDifference / 1000);
+
+    return secondsRemaining;
+  }
+
+  timer.start({
+    countdown: true,
+    startValues: { seconds: getSecondsRemaining() },
+  });
+  let data = Alpine.reactive({
+    minutes: timer.getTimeValues().minutes.toString(),
+    seconds: timer.getTimeValues().seconds.toString(),
+    hours: timer.getTimeValues().hours.toString(),
+    days: timer.getTimeValues().days.toString(),
+    timeElapsed: false,
+  });
+  Alpine.store("countDown", data);
+  timer.addEventListener("secondsUpdated", function () {
+    let displaySeconds = timer.getTimeValues().seconds;
+    let displayMinutes = timer.getTimeValues().minutes;
+    let displayHours = timer.getTimeValues().hours;
+    let displayDays = timer.getTimeValues().days;
+    data.seconds = (displaySeconds < 10 ? "0" : "") + displaySeconds;
+    data.minutes = (displayMinutes < 10 ? "0" : "") + displayMinutes;
+    data.hours = (displayHours < 10 ? "0" : "") + displayHours;
+    data.days = (displayDays < 10 ? "0" : "") + displayDays;
+  });
+  timer.addEventListener("targetAchieved", function (e) {
+    data.timeElapsed = true;
+  });
+  Alpine.start();
+</script>
+
+<style>
+  @keyframes shine {
+    0% {
+      background-position: 0% center;
+    }
+    50% {
+      background-position: 100% center;
+    }
+    100% {
+      background-position: 0% center;
+    }
+  }
+</style>

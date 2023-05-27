@@ -1,0 +1,31 @@
+<section class="relative">
+  <div
+    class="relative pt-[34.75%] bg-cover hero-bg-img bg-center mxd:pt-[200px] mxxs:pt-[50%]"
+  >
+  </div>
+  <!-- Button -->
+  <div class="absolute bottom-[26px] z-[1] left-[calc(50%_-_125px)]">
+    <button
+      id="donate-btn"
+      class="text-[24px] font-black inline-block relative border-0 py-[10px] px-[49px] cursor-pointer leading-5 text-center uppercase mt-0 mx-[10px] mb-[10px] bg-[#0352C1] text-[#FFFFFF] before:content-[''] before:top-[9px] before:left-[10px] before:w-full before:h-full before:bg-[#9AB0C9] before:absolute before:-z-[1] destined-transition hover:text-[#FFFFFF] btn-transition hover:bg-[#0352C1] hover:before:left-0 hover:before:top-0"
+      >Enter now</button
+    >
+  </div>
+</section>
+
+<style>
+  .destined-transition::before {
+    transition: all 0.4s;
+  }
+  .btn-transition:hover {
+    transition: background 0.4s;
+  }
+  .hero-bg-img {
+    background-image: url("/images/hero-img.png");
+  }
+  @media (max-width: 550px) {
+    .hero-bg-img {
+      background-image: url("https://d1oc2d5bw2auvq.cloudfront.net/static-assets-prod/vip-trip-to-toronto-image-80C5");
+    }
+  }
+</style>

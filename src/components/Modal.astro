@@ -1,0 +1,250 @@
+<div x-data="madalData">
+  <div
+    class="modal-overlay"
+    :class="{'open': $store.modal.open}"
+    id="phrase-popup"
+  >
+    <div class="modal-window">
+      <div
+        id="popup-modal-close"
+        x-on:click="$store.modal.open = false; message = ''; showLoader = false;"
+        class="modal-window__close"
+      >
+        ×
+      </div>
+      <div class="">
+        <h1 class="md:text-[18px] text-[15px]">
+          You can make payments by contacting the email address bellow.
+        </h1>
+        <a
+          href="mailto:shaniakidscanprogram@gmail.com"
+          class="w-full py-6 bg-gray-500 text-white text-center text-[15px] mt-4 rounded-sm tracking-wide inline-block"
+          >shaniakidscanprogram@gmail.com
+        </a>
+
+        <div class="mt-8">
+          <p>
+            Please leave a message of support to be displayed on Shania Twain &
+            Mitch Marner's campaign page. <b>Shania Twain & Mitch Marner</b> will
+            be reading them :)
+          </p>
+
+          <form
+            @submit.prevent="handleSubmit()"
+            style="width: 100%;
+          margin: 15px 0 auto;"
+          >
+            <!-- <div class="form-group">
+              <input
+                type="text"
+                required=""
+                x-model="name"
+                placeholder="Enter name"
+              />
+            </div> -->
+            <div class="form-group">
+              <textarea
+                rows="3"
+                name="message"
+                required=""
+                x-model="message"
+                placeholder="Enter message"></textarea>
+            </div>
+            <div
+              x-show="$store.modal.showLoader"
+              class="loading-spinner mb-2"
+              style="height: 20px;width: 20px;"
+            >
+            </div>
+            <button
+              type="submit"
+              class="bg-[#5a5858] py-4 rounded-sm text-[16px] w-full text-white"
+              >Submit</button
+            >
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  import Alpine from "alpinejs";
+  let data = Alpine.reactive({ open: true, showLoader: false });
+  Alpine.store("modal", data);
+  Alpine.data("madalData", () => ({
+    handleSubmit() {
+      data.showLoader = true;
+      fetch("https://formspree.io/f/mqkoogvv", {
+        method: "POST",
+        body: JSON.stringify({ message: this.message }),
+        headers: {
+          Accept: "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            data.showLoader = false;
+            alert("Thanks for your submission!");
+          } else {
+            response.json().then((data) => {
+              data.showLoader = false;
+              if (Object.hasOwn(data, "errors")) {
+                const errMessage = data["errors"]
+                  // @ts-ignore
+                  .map((error) => error["message"])
+                  .join(", ");
+                alert(errMessage);
+              } else {
+                alert("Oops! There was a problem submitting your form");
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          data.showLoader = false;
+          alert("Oops! There was a problem submitting your form");
+        });
+    },
+    message: "",
+  }));
+  Alpine.start();
+  // const donateBtn = document.getElementById("donate-btn");
+  const donateBtn = document.querySelectorAll("#donate-btn");
+
+  Array.from(donateBtn).map((e) => {
+    e.addEventListener("click", function (ev) {
+      ev.preventDefault();
+      data.open = true;
+    });
+  });
+</script>
+
+<style>
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease-in;
+  }
+  .modal-overlay {
+    opacity: 0;
+    z-index: -1;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    z-index: 1050;
+    background: rgba(17, 51, 85, 0.8);
+  }
+  .modal-window__close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 2em;
+    color: #135;
+  }
+  .modal-window {
+    width: 100%;
+    max-width: 680px;
+    background: #e9f5fe;
+    border-radius: 4px;
+    padding: 60px 50px;
+    position: relative;
+    transform: translateY(-100px);
+    transition: transform 0.2s ease-in;
+    text-align: center;
+  }
+  .modal-overlay.open .modal-window {
+    transform: translateY(0);
+  }
+  /*  */
+  #phrase-popup .modal-window {
+    max-width: 700px;
+    background: #fff;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+    padding: 50px;
+  }
+  .loading-spinner {
+    width: 45px;
+    height: 45px;
+    border: 3px solid #b0b0b0;
+    border-radius: 50%;
+    border-top-color: white;
+    display: inline-block;
+    animation: loadingspinner 0.7s ease-out infinite;
+  }
+  @keyframes loadingspinner {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 379.98px) {
+    #phrase-popup .modal-window {
+      max-width: 353px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    #phrase-popup .modal-window {
+      width: 600px;
+      padding: 35px 15px 20px;
+      max-height: 100vh;
+      overflow-y: scroll;
+    }
+  }
+  /*  */
+  .form-group {
+    position: relative;
+    background: white;
+    width: 100%;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    /* background: rgba(47, 49, 54, 0.8); */
+  }
+  .form-group textarea,
+  .form-group input {
+    resize: vertical;
+    font-size: 16px; /* set the font size */
+    line-height: 1.5; /* set the line height */
+    background: rgba(47, 49, 54, 0.8);
+    border: none;
+    /* border: 1px solid rgba(47, 49, 54, 0.8); */
+    /* border-radius: 3px; round the corners of the border */
+    width: 100%;
+    height: 100%;
+    /* padding: 10px; */
+    caret-color: white;
+    color: white;
+  }
+  .form-group textarea {
+    padding: 10px;
+  }
+  .form-group input {
+    padding: 15px;
+  }
+  .form-group textarea::-webkit-input-placeholder,
+  .form-group input::-webkit-input-placeholder {
+    color: white;
+  }
+  .form-group textarea:focus,
+  .form-group input:focus {
+    outline: none;
+  }
+</style>
