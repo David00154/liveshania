@@ -51,7 +51,7 @@
       </div>
       <div class="">
         <h1 class="md:text-[18px] text-[15px]">
-          You can make payments by contacting the email address bellow.
+          You can make payments by contacting the email address below.
         </h1>
         <a
           href="mailto:shaniakidscanprogram@gmail.com"
@@ -105,86 +105,7 @@
   </div>
 </div>
 <script>
-  // import Alpine from "alpinejs";
-
-  // let data = Alpine.reactive({ open: true, showLoader: false });
-  // Alpine.data("modal", () => ({
-  //   ...data,
-
-  // var     handleSubmit = function() {
-  //     data.showLoader = true;
-  //     fetch("https://formspree.io/f/mqkoogvv", {
-  //       method: "POST",
-  //       body: JSON.stringify({ message: this.message }),
-  //       headers: {
-  //         Accept: "application/json",
-  //       },
-  //     })
-  //       .then((response) => {
-  //         if (response.ok) {
-  //           data.showLoader = false;
-  //           alert("Thanks for your submission!");
-  //         } else {
-  //           response.json().then((data) => {
-  //             data.showLoader = false;
-  //             if (Object.hasOwn(data, "errors")) {
-  //               const errMessage = data["errors"]
-  //                 // @ts-ignore
-  //                 .map((error) => error["message"])
-  //                 .join(", ");
-  //               alert(errMessage);
-  //             } else {
-  //               alert("Oops! There was a problem submitting your form");
-  //             }
-  //           });
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         data.showLoader = false;
-  //         alert("Oops! There was a problem submitting your form");
-  //       });
-  // handleSubmit() {
-  //   data.showLoader = true;
-  //   fetch("https://formspree.io/f/mqkoogvv", {
-  //     method: "POST",
-  //     body: JSON.stringify({ message: this.message }),
-  //     headers: {
-  //       Accept: "application/json",
-  //     },
-  //   })
-  //     .then((response) => {
-  //       if (response.ok) {
-  //         data.showLoader = false;
-  //         alert("Thanks for your submission!");
-  //       } else {
-  //         response.json().then((data) => {
-  //           data.showLoader = false;
-  //           if (Object.hasOwn(data, "errors")) {
-  //             const errMessage = data["errors"]
-  //               // @ts-ignore
-  //               .map((error) => error["message"])
-  //               .join(", ");
-  //             alert(errMessage);
-  //           } else {
-  //             alert("Oops! There was a problem submitting your form");
-  //           }
-  //         });
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       data.showLoader = false;
-  //       alert("Oops! There was a problem submitting your form");
-  //     });
-  //   },
-  //   message: "",
-  // }));
-  // const donateBtn = document.getElementById("donate-btn");
   const donateBtn = document.querySelectorAll("#donate-btn");
-  // document.addEventListener("alpine:init", () => {
-  //   let data = window.Alpine.reactive({ open: true, showLoader: false });
-  //   console.log(data);
-
-  // });
   const popup = document.getElementById("phrase-popup");
 
   Array.from(donateBtn).map((e) => {
@@ -194,9 +115,6 @@
       popup?.classList.toggle("open");
     });
   });
-  // window.Alpine = Alpine;
-
-  // Alpine.start();
 </script>
 
 <style>
